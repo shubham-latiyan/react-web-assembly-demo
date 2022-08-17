@@ -1,5 +1,4 @@
-
-export function getFactorializeJS(num: number): number {
+export function getFactorialJS(num: number): number {
   let result = num;
   if (num === 0 || num === 1) return 1;
   while (num > 1) {
@@ -9,7 +8,7 @@ export function getFactorializeJS(num: number): number {
   return result;
 }
 
-export function getFactorializeFibJS(num: number): number {
+export function getFactorialFibJS(num: number): number {
   let a = 1,
     b = 0,
     temp;
@@ -18,7 +17,7 @@ export function getFactorializeFibJS(num: number): number {
     temp = a;
     a = a + b;
     b = temp;
-    getFactorializeJS(b);
+    getFactorialJS(b);
     num--;
   }
 

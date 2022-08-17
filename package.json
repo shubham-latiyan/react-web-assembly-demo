@@ -5,11 +5,11 @@
     "asbuild": "yarn asbuild:untouched && yarn asbuild:optimized",
     "asbuild:optimized": "asc assembly/index.ts -b public/as-api.wasm -t public/as-api.wat --sourceMap --optimize",
     "asbuild:untouched": "asc assembly/index.ts -b public/as-api.wasm -t public/as-api.wat --sourceMap --debug",
-    "build": "yarn asbuild && react-scripts --openssl-legacy-provider build",
+    "build": "yarn asbuild && react-scripts build",
     "eject": "react-scripts eject",
     "preserve": "yarn build",
     "serve": "serve -s build",
-    "start": "react-scripts --openssl-legacy-provider start",
+    "start": "react-scripts start",
     "test": "react-scripts test"
   },
   "dependencies": {

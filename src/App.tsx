@@ -1,80 +1,68 @@
 import React from "react";
 import API from "./as-api";
 import "./App.css";
-import { getFactorializeJS, getFactorializeFibJS } from "./utils";
-
-function useAsyncEffect(
-  fn: () => Promise<void | (() => void)>,
-  dependencies?: React.DependencyList
-) {
-  return React.useEffect(() => {
-    const destructorPromise = fn();
-    return () => {
-      destructorPromise.then((destructor) => destructor && destructor());
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, dependencies);
-}
+import { getFactorialJS, getFactorialFibJS } from "./utils";
 
 const App: React.FC = () => {
-  console.log('API:', API)
-  // const [api, setAPI] = React.useState<any>(async () => await API);
-  // console.log('api:', api)
+  const [api, setAPI] = React.useState<any>(null);
 
-  // const [factorializeJS, setFactorializeJS] = React.useState(0);
-  // const [factorializeWasm, setFactorializeWasm] = React.useState(0);
+  React.useEffect(() => {
+    const get = async () => {
+      setAPI(await API);
+    };
+    get();
 
-  useAsyncEffect(async () => {
-    // setAPI(await API);
+    return () => {
+      setAPI(null);
+    };
   }, []);
 
+  const factorialJS = React.useCallback(async () => {
+    console.time("getFactorialJS");
+    const result = getFactorialJS(30);
+    console.timeEnd("getFactorialJS");
 
-  const getFactorialJS = React.useCallback(async () => {
-    console.time('getFactorialJS');
-    const result = getFactorializeJS(200);
-    // setFactorializeJS(result);
-    console.timeEnd('getFactorialJS');
+    console.log("factorialJS", result);
   }, []);
 
-  const getFactorialWasm = React.useCallback(async () => {
-    console.time('getFactorialWasm');
-    // const result = api?.exports.getFactorializeWasm(200);
-    // console.log('result:', result)
-    // setFactorializeWasm(result);
-    console.timeEnd('getFactorialWasm');
+  const factorialWasm = React.useCallback(async () => {
+    console.time("getFactorialWasm");
+    const result = api?.exports.getFactorialWasm(30);
+    console.timeEnd("getFactorialWasm");
+
+    console.log("factorialWasm:", result);
+  }, [api]);
+
+  const factorialFibJS = React.useCallback(async () => {
+    console.time("factorialFibJS");
+    const result = getFactorialFibJS(40);
+    console.timeEnd("factorialFibJS");
+
+    console.log("result:", result);
   }, []);
 
+  const factorialFibWasm = React.useCallback(async () => {
+    console.time("factorialFibWasm");
+    console.log("🚀 ~ api", api);
+    const result = api?.exports?.getFactorialFibWasm(40);
+    console.timeEnd("factorialFibWasm");
 
-  const factorializeFibJS = React.useCallback(async () => {
-    console.time('factorializeFibJS');
-    const result = getFactorializeFibJS(30);
-    console.log('result:', result)
-    // setFactorializeJS(result);
-    console.timeEnd('factorializeFibJS');
-  }, []);
-
-  const factorializeFibWasm = React.useCallback(async () => {
-    // console.log('api:', await api)
-    console.time('factorializeFibWasm');
-    // const result = await api?.exports?.getFactorializeFibWasm(30);
-    // console.log('result:', result)
-    console.timeEnd('factorializeFibWasm');
-  }, []);
-
-
+    console.log("factorialFibWasm:", result);
+  }, [api]);
 
   return (
     <div className="App">
       <header className="App-header">
-        <button onClick={getFactorialJS}>Get Factorial in Js</button>
+        <button onClick={factorialJS}>Get Factorial in Js</button>
         <br />
-        <button onClick={getFactorialWasm}>Get Factorial in Wasm</button>
+        <button onClick={factorialWasm}>Get Factorial in Wasm</button>
 
-        <br /><br />
-
-        <button onClick={factorializeFibJS}>Get Factorial Fibo in Js</button>
         <br />
-        <button onClick={factorializeFibWasm}>Get Factorial Fibo in Wasm</button>
+        <br />
+
+        <button onClick={factorialFibJS}>Get Factorial Fibo in Js</button>
+        <br />
+        <button onClick={factorialFibWasm}>Get Factorial Fibo in Wasm</button>
       </header>
     </div>
   );

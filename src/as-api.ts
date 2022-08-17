@@ -7,8 +7,4 @@ interface API {
 
 const imports: any = {};
 
-const loadFun = async () => {
-  return await fetch("./as-api.wasm")
-};
-
-export default instantiateStreaming<any>(loadFun(), imports);
+export default instantiateStreaming<any>(fetch("./as-api.wasm"), imports);

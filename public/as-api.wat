@@ -24,8 +24,8 @@
  (export "__collect" (func $~lib/rt/pure/__collect))
  (export "__rtti_base" (global $~lib/rt/__rtti_base))
  (export "add" (func $assembly/index/add))
- (export "getFactorializeWasm" (func $assembly/index/getFactorializeWasm))
- (export "getFactorializeFibWasm" (func $assembly/index/getFactorializeFibWasm))
+ (export "getFactorialWasm" (func $assembly/index/getFactorialWasm))
+ (export "getFactorialFibWasm" (func $assembly/index/getFactorialFibWasm))
  (func $~lib/rt/tlsf/removeBlock (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -1102,7 +1102,7 @@
   local.get $1
   i32.add
  )
- (func $assembly/index/getFactorializeWasm (param $0 i32) (result i32)
+ (func $assembly/index/getFactorialWasm (param $0 i32) (result i32)
   (local $1 i32)
   local.get $0
   local.set $1
@@ -1133,7 +1133,7 @@
   end
   local.get $1
  )
- (func $assembly/index/getFactorializeFibWasm (param $0 i32) (result i32)
+ (func $assembly/index/getFactorialFibWasm (param $0 i32) (result i32)
   (local $1 i32)
   (local $2 i32)
   (local $3 i32)
@@ -1152,7 +1152,7 @@
     local.tee $1
     i32.add
     local.tee $2
-    call $assembly/index/getFactorializeWasm
+    call $assembly/index/getFactorialWasm
     drop
     local.get $4
     i32.const 1
